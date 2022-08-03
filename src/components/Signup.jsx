@@ -1,7 +1,25 @@
-import React from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
 
 const Signup = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const { createUser } = UserAuth();
+
+  const handleSubmit = async (error) => {
+    error.preventDefault();
+    setError('');
+    try {
+      await createUser(email, password);
+    } catch (error) {
+      setError(error.message);
+      console.log(error.message);
+    }
+  };
   return (
     <div className='max-w-[700px] mx-auto my-16 p-4'>
       <div>
@@ -13,10 +31,11 @@ const Signup = () => {
           </Link>
         </p>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='flex flex-col py-2'>
           <label className='py-2 font-medium'>Email Address</label>
           <input
+            onChange={(e) => setEmail(e.target.value)}
             className='border p-3'
             type='email'
             placeholder='Enter your Email'
@@ -25,6 +44,7 @@ const Signup = () => {
         <div className='flex flex-col py-2'>
           <label className='py-2 font-medium'>Password</label>
           <input
+            onChange={(e) => setPassword(e.target.value)}
             className='border p-3'
             type='password'
             placeholder='Your Password'
