@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
 
 const Signup = () => {
@@ -10,11 +10,14 @@ const Signup = () => {
 
   const { createUser } = UserAuth();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (error) => {
     error.preventDefault();
     setError('');
     try {
       await createUser(email, password);
+      navigate('/account');
     } catch (error) {
       setError(error.message);
       console.log(error.message);
@@ -25,7 +28,7 @@ const Signup = () => {
       <div>
         <h1 className='text-2xl font-bold py-2'>Sign up for a free account</h1>
         <p className='py-2'>
-          Already have an account yet?{' '}
+          Already have an account yet?
           <Link to='/' className='underline text-blue-700'>
             Sign In.
           </Link>
