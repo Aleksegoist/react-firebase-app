@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div>
       <h1>
-        <h1 className='text-center text-3xl font-bold'>Firebase Auth</h1>
+        <h1 className='text-center text-3xl font-bold mt-5'>Firebase Auth</h1>
       </h1>
       <AuthContextProvider>
         <Routes>
